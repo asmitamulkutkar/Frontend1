@@ -16,9 +16,8 @@ function FeedbackList() {
 
   const fetchFeedback = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/feedback/",
-      { withCredentials: true });
-
+      const response = await axios.get("http://localhost:8000/feedback/");
+      
       setFeedbackList(response.data);
       console.log(feedbackList);
     } catch (error) {
