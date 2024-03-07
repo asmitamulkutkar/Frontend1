@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-// App.jsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,6 +17,7 @@ import CFooter from "./Client/CFooter";
 import CHome from "./Client/CHome";
 import CSearch from "./Client/CSearch";
 import CreateServiceRequest from "./Client/CreateServiceRequest";
+import ViewProfile from "./ViewProfile";
 
 function App() {
   return (
@@ -36,12 +35,14 @@ function App() {
           path="/service-providers/:id"
           element={<ServiceProviderProfile />}
         />
+        <Route path="/profile/:id" element={<ViewProfile />} />
         <Route path="/cheader" element={<CHeader />} />
         <Route path="/cfooter" element={<CFooter />} />
         <Route path="/chome" element={<CHome />} />
         <Route path="/csearch" element={<CSearch />} />
         <Route path="/csrequest" element={<CreateServiceRequest />} />
-      </Routes>
+        <Route path="/spProfile" element={<ServiceProviderProfile/>}/>
+         </Routes>
     </BrowserRouter>
   );
 }

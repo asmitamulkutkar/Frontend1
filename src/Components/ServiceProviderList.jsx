@@ -55,7 +55,7 @@ const ServiceProviderList = () => {
                 <Card.Body>
                   <Card.Title>{provider.service_name}</Card.Title>
                   <Card.Text>{provider.categories.join(", ")}</Card.Text>
-                  <Link to={`/service-providers/${provider._id}`}>
+                  <Link to={`/profile/${provider._id}`}>
                     <Button variant="primary">View Profile</Button>
                   </Link>
                 </Card.Body>

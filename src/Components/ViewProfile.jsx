@@ -5,8 +5,10 @@ import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useParams } from "react-router-dom";
 
-const ServiceProviderProfile = () => {
+const ViewProfile = () => {
+  const { id } = useParams(); 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     council_bar_id: "",
@@ -33,18 +35,18 @@ const ServiceProviderProfile = () => {
     const fetchServiceProviderData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/service-providers/profile`,
+          `http://localhost:8000/service-providers/${id}`,
           { withCredentials: true }
         );
         const serviceProviderData = response.data;
         console.log(serviceProviderData);
         setFormData({
-          council_bar_id: serviceProviderData[0].council_bar_id || "",
-          categories: serviceProviderData[0].categories || "",
-          edu_back: serviceProviderData[0].edu_back || "",
-          service_type: serviceProviderData[0].service_type || "",
-          service_name: serviceProviderData[0].service_name || "",
-          experience_years: serviceProviderData[0].experience_years || 0,
+          council_bar_id: serviceProviderData.council_bar_id || "",
+          categories: serviceProviderData.categories || "",
+          edu_back: serviceProviderData.edu_back || "",
+          service_type: serviceProviderData.service_type || "",
+          service_name: serviceProviderData.service_name || "",
+          experience_years: serviceProviderData.experience_years || 0,
           // username: serviceProviderData[0].username || "",
           // email: serviceProviderData[0].email || "",
           // password: serviceProviderData[0].password || "",
@@ -61,7 +63,7 @@ const ServiceProviderProfile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/users/profile`,
+          `http://localhost:8000/users/${id}`,
           { withCredentials: true }
         );
         const userData = response.data;
@@ -91,9 +93,7 @@ const ServiceProviderProfile = () => {
 
 
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  
 
   const handleSave = async () => {
     try {
@@ -102,7 +102,6 @@ const ServiceProviderProfile = () => {
         formData,
         { withCredentials: true }
       );
-      setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
@@ -112,7 +111,6 @@ const ServiceProviderProfile = () => {
         userInfo,
         { withCredentials: true }
       );
-      setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
@@ -146,7 +144,7 @@ const ServiceProviderProfile = () => {
                     type="email"
                     placeholder="Enter Email"
                     value={userInfo.email}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setInfo({ ...userInfo, email: e.target.value })
                     }
@@ -158,7 +156,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Location"
                     value={userInfo.location}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setInfo({ ...userInfo, location: e.target.value })
                     }
@@ -170,7 +168,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Firstname"
                     value={userInfo.firstname}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setInfo({ ...userInfo, firstname: e.target.value })
                     }
@@ -182,7 +180,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Lastname"
                     value={userInfo.lastname}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setInfo({ ...userInfo, lastname: e.target.value })
                     }
@@ -193,7 +191,7 @@ const ServiceProviderProfile = () => {
                   <Form.Control
                     as="select"
                     value={userInfo.gender}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setInfo({ ...userInfo, gender: e.target.value })
                     }
@@ -209,7 +207,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Council Bar ID"
                     value={formData.council_bar_id}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, council_bar_id: e.target.value })
                     }
@@ -221,7 +219,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Categories"
                     value={formData.categories}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, categories: e.target.value })
                     }
@@ -233,7 +231,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Education Background"
                     value={formData.edu_back}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, edu_back: e.target.value })
                     }
@@ -245,7 +243,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Service Type"
                     value={formData.service_type}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, service_type: e.target.value })
                     }
@@ -257,7 +255,7 @@ const ServiceProviderProfile = () => {
                     type="text"
                     placeholder="Enter Service Name"
                     value={formData.service_name}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, service_name: e.target.value })
                     }
@@ -268,21 +266,21 @@ const ServiceProviderProfile = () => {
                   <Form.Control
                     type="number"
                     value={formData.experience_years}
-                    readOnly={!isEditing}
+                    readOnly
                     onChange={(e) =>
                       setFormData({ ...formData, experience_years: e.target.value })
                     }
                   />
                 </Form.Group>
-                {isEditing ? (
-                  <Button variant="primary" onClick={handleSave}>
-                    Save
+                 <div className="flex m-4">
+                 <Button className="m-2" variant="primary" onClick={handleSave}>
+                    Send Request
                   </Button>
-                ) : (
-                  <Button variant="primary" onClick={handleEdit}>
-                    Edit
+                  <Button className="m-2" variant="primary" onClick={handleSave}>
+                    Feedback
                   </Button>
-                )}
+                 </div>
+
               </Form>
             </Card.Body>
           </Card>
@@ -293,4 +291,4 @@ const ServiceProviderProfile = () => {
   );
 };
 
-export default ServiceProviderProfile;
+export default ViewProfile;

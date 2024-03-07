@@ -23,13 +23,15 @@ const ServiceRequestList = () => {
     fetchServiceRequests();
   }, []);
 
-  const handleAccept = async (id) => {
+  const handleAccept = async (req) => {
     try {
-      await axios.put(`/service-req/${id}`, { req_status: "Approved" });
+      await axios.put(`http://localhost:8000/service-req/${req._id}`, { req_status: "Approved", user_id: req._id,sp_user_id: req.sp_user_id,
+      description: req.description,service_request: req.service_request},
+      {withCredentials:true});
       // Update the state to reflect the changes
       setServiceRequests(
         serviceRequests.map((request) =>
-          request._id === id ? { ...request, req_status: "Approved" } : request
+          request._id === req._id ? { ...request, req_status: "Approved" } : request
         )
       );
     } catch (error) {
@@ -37,13 +39,14 @@ const ServiceRequestList = () => {
     }
   };
 
-  const handleDecline = async (id) => {
+  const handleDecline = async (req) => {
     try {
-      await axios.put(`/service-req/${id}`, { req_status: "Rejected" });
+      await axios.put(`http://localhost:8000/service-req/${req._id}`, { req_status: "Rejected", user_id: req._id,sp_user_id: req.sp_user_id,
+      description: req.description,service_request: req.service_request},{withCredentials:true});
       // Update the state to reflect the changes
       setServiceRequests(
         serviceRequests.map((request) =>
-          request._id === id ? { ...request, req_status: "Rejected" } : request
+          request._id === req._id ? { ...request, req_status: "Rejected" } : request
         )
       );
     } catch (error) {
@@ -74,13 +77,13 @@ const ServiceRequestList = () => {
                     <>
                       <Button
                         variant="success"
-                        onClick={() => handleAccept(request._id)}
+                        onClick={() => handleAccept(request)}
                       >
                         Accept
                       </Button>{" "}
                       <Button
                         variant="danger"
-                        onClick={() => handleDecline(request._id)}
+                        onClick={() => handleDecline(request  )}
                       >
                         Decline
                       </Button>
