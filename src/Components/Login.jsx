@@ -33,9 +33,15 @@ function Login() {
       );
       setLoading(false);
       if (response.data.message === "User logged-in Successfully!") {
-        navigate("/home");
+        const { role } = response.data.user; // Assuming the role is returned from the backend
+        if (role === "Client") {
+          navigate("/chome"); // Redirect to client home
+        } else if (role === "Service Provider") {
+          navigate("/home"); // Redirect to service provider home
+        }
       }
     } catch (err) {
+      console.log(err);
       setLoading(false);
       setError(
         err.response?.data?.error ||

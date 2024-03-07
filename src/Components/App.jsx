@@ -14,6 +14,11 @@ import ServiceRequestList from "./ServiceRequestList";
 import ServiceProviderList from "./ServiceProviderList";
 import UserStoryList from "./UserStoryList";
 import ServiceProviderProfile from "./ServiceProviderProfile";
+import CHeader from "./Client/CHeader";
+import CFooter from "./Client/CFooter";
+import CHome from "./Client/CHome";
+import CSearch from "./Client/CSearch";
+import CreateServiceRequest from "./Client/CreateServiceRequest";
 
 function App() {
   return (
@@ -27,7 +32,15 @@ function App() {
         <Route path="/serviceRequest" element={<ServiceRequestList />} />
         <Route path="/serviceProviderList" element={<ServiceProviderList />} />
         <Route path="/userStories" element={<UserStoryList />} />
-        <Route path="/spProfile" element={<ServiceProviderProfile />} />
+        <Route
+          path="/service-providers/:id"
+          element={<ServiceProviderProfile />}
+        />
+        <Route path="/cheader" element={<CHeader />} />
+        <Route path="/cfooter" element={<CFooter />} />
+        <Route path="/chome" element={<CHome />} />
+        <Route path="/csearch" element={<CSearch />} />
+        <Route path="/csrequest" element={<CreateServiceRequest />} />
       </Routes>
     </BrowserRouter>
   );
