@@ -32,7 +32,7 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/client-requests">
+                <Link className="nav-link" to="/serviceRequest">
                   Client Requests
                 </Link>
               </li>
@@ -42,12 +42,12 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/search-others">
+                <Link className="nav-link" to="/serviceProviderList">
                   Search Others
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/success-stories">
+                <Link className="nav-link" to="/userStories">
                   Success Stories
                 </Link>
               </li>
@@ -64,7 +64,7 @@ function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/profile">
+                <Link className="nav-link" to="/sprofile">
                   Profile
                 </Link>
               </li>

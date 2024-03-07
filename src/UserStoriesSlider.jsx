@@ -5,6 +5,9 @@ function UserStoriesSlider() {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-lg-8 col-md-10 col-sm-12">
+          <h1 className="text-center mb-4">
+            E-market Place for Legal Service Providers
+          </h1>
           <Carousel>
             <Carousel.Item>
               <img
@@ -13,8 +16,12 @@ function UserStoriesSlider() {
                 alt="First slide"
               />
               <Carousel.Caption>
-                <h3>User Story 1</h3>
-                <p>Description of user story 1</p>
+                <h3 className="text-center">
+                  Connecting You With Trusted Legal Professionals
+                </h3>
+                <p className="text-center">
+                  Find experienced lawyers and legal experts for your needs.
+                </p>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -24,8 +31,12 @@ function UserStoriesSlider() {
                 alt="Second slide"
               />
               <Carousel.Caption>
-                <h3>User Story 2</h3>
-                <p>Description of user story 2</p>
+                <h3 className="text-center">
+                  Secure and Convenient Legal Services
+                </h3>
+                <p className="text-center">
+                  Access legal services online from anywhere, anytime.
+                </p>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -35,8 +46,11 @@ function UserStoriesSlider() {
                 alt="Third slide"
               />
               <Carousel.Caption>
-                <h3>User Story 3</h3>
-                <p>Description of user story 3</p>
+                <h3 className="text-center">Your Legal Needs, Our Priority</h3>
+                <p className="text-center">
+                  We are committed to providing exceptional legal solutions
+                  tailored to you.
+                </p>
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>

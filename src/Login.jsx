@@ -23,16 +23,17 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(""); // Reset any previous errors
+    setError("");
 
     try {
       const response = await axios.post(
         "http://localhost:8000/users/login",
-        formData
+        formData,
+        { withCredentials: true }
       );
       setLoading(false);
       if (response.data.message === "User logged-in Successfully!") {
-        navigate("/home"); // Redirect to home page
+        navigate("/home");
       }
     } catch (err) {
       setLoading(false);
@@ -50,8 +51,8 @@ function Login() {
         {error && <p className="text-danger">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="username or Email" className="form-label">
-              <strong>Username or Email</strong>
+            <label htmlFor="username" className="form-label">
+              <strong>Username</strong>
             </label>
             <input
               type="text"
@@ -62,7 +63,23 @@ function Login() {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              required // Field is required
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              <strong>Email</strong>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              placeholder="Enter email"
+              autoComplete="off"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
           </div>
           <div className="mb-3">
@@ -77,7 +94,7 @@ function Login() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              required // Field is required
+              required
             />
           </div>
           <div className="text-center">

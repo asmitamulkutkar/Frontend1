@@ -10,6 +10,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Register from "./Register";
 import FeedbackForm from "./Feedbacks";
+import ServiceRequestList from "./ServiceRequestList";
+import ServiceProviderList from "./ServiceProviderList";
+import UserStoryList from "./UserStoryList";
+import ServiceProviderProfile from "./ServiceProviderProfile";
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/registerSp" element={<Register />} />
         <Route path="/feedbacks" element={<FeedbackForm />} />
+        <Route path="/serviceRequest" element={<ServiceRequestList />} />
+        <Route path="/serviceProviderList" element={<ServiceProviderList />} />
+        <Route path="/userStories" element={<UserStoryList />} />
+        <Route path="/spProfile" element={<ServiceProviderProfile />} />
       </Routes>
     </BrowserRouter>
   );

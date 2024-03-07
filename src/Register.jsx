@@ -47,12 +47,11 @@ function Register() {
       // Form validation is now done by the browser due to the 'required' attribute in input fields
       const response = await axios.post(
         "http://localhost:8000/users/register",
-        formData
+        formData,
+        { withCredentials: true }
       );
       console.log(response.data);
       setLoading(false);
-      // Redirect to login page after successful registration
-      // Optionally, you can redirect the user here
       navigate("/login");
     } catch (err) {
       setLoading(false);

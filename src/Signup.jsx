@@ -36,7 +36,8 @@ function Signup() {
       // Form validation is now done by the browser due to the 'required' attribute in input fields
       const response = await axios.post(
         "http://localhost:8000/users/register",
-        formData
+        formData,
+        { withCredentials: true }
       );
       console.log(response.data);
       setLoading(false);
