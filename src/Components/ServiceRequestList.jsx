@@ -13,7 +13,7 @@ const ServiceRequestList = () => {
   useEffect(() => {
     const fetchServiceRequests = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/service-req");
+        const response = await axios.get("http://localhost:8000/service-req",{withCredentials:true});
         setServiceRequests(response.data, { withCredentials: true });
       } catch (error) {
         console.error("Error fetching service requests:", error);

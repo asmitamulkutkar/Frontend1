@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const ServiceProviderProfile = ({ match }) => {
+const ServiceProviderProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     council_bar_id: "",
@@ -19,17 +21,28 @@ const ServiceProviderProfile = ({ match }) => {
     const fetchServiceProviderData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/service-providers/${match.params.id}`
+          `http://localhost:8000/service-providers/1`,
+          { withCredentials: true }
         );
         const serviceProviderData = response.data;
-        setFormData(serviceProviderData);
+        console.log(serviceProviderData);
+        // Ensure that each field is populated with a default value if it's undefined
+        setFormData({
+          council_bar_id: serviceProviderData[0].council_bar_id || "",
+          categories: serviceProviderData[0].categories || "",
+          edu_back: serviceProviderData[0].edu_back || "",
+          service_type: serviceProviderData[0].service_type || "",
+          service_name: serviceProviderData[0].service_name || "",
+          experience_years: serviceProviderData[0].experience_years || 0,
+        });
       } catch (error) {
         console.error("Error fetching service provider data:", error);
       }
     };
-
+  
     fetchServiceProviderData();
-  }, [match.params.id]);
+  }, []);
+  
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -38,7 +51,7 @@ const ServiceProviderProfile = ({ match }) => {
   const handleSave = async () => {
     try {
       await axios.put(
-        `http://localhost:8000/service-providers/${match.params.id}`,
+        `http://localhost:8000/service-providers/1`,
         formData
       );
       setIsEditing(false);
@@ -49,6 +62,7 @@ const ServiceProviderProfile = ({ match }) => {
 
   return (
     <div>
+      <Header/>
       <Card>
         <Card.Body>
           <Card.Title>Service Provider Profile</Card.Title>
@@ -136,6 +150,7 @@ const ServiceProviderProfile = ({ match }) => {
           </Form>
         </Card.Body>
       </Card>
+      <Footer />
     </div>
   );
 };
