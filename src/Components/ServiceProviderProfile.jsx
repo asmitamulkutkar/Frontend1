@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
-import Header from "./Header";
-import Footer from "./Footer";
 
 const ServiceProviderProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -16,18 +14,15 @@ const ServiceProviderProfile = () => {
     service_name: "",
     experience_years: 0,
   });
-  const [userInfo,setInfo] =useState(
-    {
-      username: "",
-      email: "",
-      password: "",
-      location: "",
-      firstname: "",
-      lastname: "",
-      gender: "",
-    }
-  )
-
+  const [userInfo, setInfo] = useState({
+    username: "",
+    email: "",
+    password: "",
+    location: "",
+    firstname: "",
+    lastname: "",
+    gender: "",
+  });
 
   useEffect(() => {
     const fetchServiceProviderData = async () => {
@@ -66,7 +61,7 @@ const ServiceProviderProfile = () => {
         );
         const userData = response.data;
         console.log(userData);
-    
+
         if (userData) {
           setInfo({
             username: userData.username || "",
@@ -84,12 +79,10 @@ const ServiceProviderProfile = () => {
         console.error("Error fetching user data:", error);
       }
     };
-    
+
     fetchServiceProviderData();
     fetchUserData();
   }, []);
-
-
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -97,21 +90,17 @@ const ServiceProviderProfile = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(
-        `http://localhost:8000/service-providers/1`,
-        formData,
-        { withCredentials: true }
-      );
+      await axios.put(`http://localhost:8000/service-providers/1`, formData, {
+        withCredentials: true,
+      });
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
     try {
-      await axios.put(
-        `http://localhost:8000/users/update-user`,
-        userInfo,
-        { withCredentials: true }
-      );
+      await axios.put(`http://localhost:8000/users/update-user`, userInfo, {
+        withCredentials: true,
+      });
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
@@ -120,7 +109,6 @@ const ServiceProviderProfile = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Header />
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
           <div className="col-md-8 offset-md-2"></div>
@@ -211,7 +199,10 @@ const ServiceProviderProfile = () => {
                     value={formData.council_bar_id}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setFormData({ ...formData, council_bar_id: e.target.value })
+                      setFormData({
+                        ...formData,
+                        council_bar_id: e.target.value,
+                      })
                     }
                   />
                 </Form.Group>
@@ -270,7 +261,10 @@ const ServiceProviderProfile = () => {
                     value={formData.experience_years}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setFormData({ ...formData, experience_years: e.target.value })
+                      setFormData({
+                        ...formData,
+                        experience_years: e.target.value,
+                      })
                     }
                   />
                 </Form.Group>

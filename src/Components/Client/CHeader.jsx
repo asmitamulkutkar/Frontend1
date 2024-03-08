@@ -50,7 +50,7 @@ function CHeader() {
               </li>
 
               <li className="nav-item">
-                <Link className="nav-link" to="/spProfile">
+                <Link className="nav-link" to="/userprofile/:id">
                   Profile
                 </Link>
               </li>

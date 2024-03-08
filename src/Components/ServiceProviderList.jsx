@@ -64,7 +64,6 @@ const ServiceProviderList = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

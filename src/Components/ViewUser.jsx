@@ -1,14 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Card, Form } from "react-bootstrap";
+import { Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header";
-import Footer from "./Footer"; // Including Footer component
 import { useParams } from "react-router-dom";
 
 const ViewUserProfile = () => {
   const { id } = useParams();
 
-  const [userInfo, setInfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
     password: "",
@@ -18,53 +18,62 @@ const ViewUserProfile = () => {
     gender: "",
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/users/${id}`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`http://localhost:8000/users/${id}`, {
+          withCredentials: true,
+        });
         const userData = response.data;
-        console.log(userData);
-
-        if (userData) {
-          setInfo({
-            username: userData.username || "",
-            email: userData.email || "",
-            password: userData.password || "",
-            location: userData.location || "",
-            firstname: userData.firstname || "",
-            lastname: userData.lastname || "",
-            gender: userData.gender || "",
-          });
-        } else {
-          console.error("No user data found in the response.");
-        }
+        setUserInfo(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
     fetchUserData();
-  }, [id]); // Include id in the dependency array to re-fetch data when id changes
+  }, [id]);
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing); // Toggle the editing state
+  };
+
+  const handleSave = async () => {
+    try {
+      await axios.put(`http://localhost:8000/users/${id}`, userInfo, {
+        withCredentials: true,
+      });
+      setIsEditing(false); // Turn off editing mode after saving
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo({ ...userInfo, [name]: value });
+  };
 
   return (
     <div className="d-flex flex-column h-100">
       <Header />
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
-          <div className="col-md-8 offset-md-2">
+          <div className="col-md-8 offset-md-2 mt-3">
             <Card>
               <Card.Body>
-                <Card.Title>Service Provider Profile</Card.Title>
+                <Card.Title>User Profile</Card.Title>
                 <Form>
                   <Form.Group controlId="formUsername">
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter Username"
+                      name="username"
                       value={userInfo.username}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group controlId="formEmail">
@@ -72,8 +81,10 @@ const ViewUserProfile = () => {
                     <Form.Control
                       type="email"
                       placeholder="Enter Email"
+                      name="email"
                       value={userInfo.email}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group controlId="formLocation">
@@ -81,8 +92,10 @@ const ViewUserProfile = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter Location"
+                      name="location"
                       value={userInfo.location}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group controlId="formFirstname">
@@ -90,8 +103,10 @@ const ViewUserProfile = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter Firstname"
+                      name="firstname"
                       value={userInfo.firstname}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group controlId="formLastname">
@@ -99,28 +114,40 @@ const ViewUserProfile = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter Lastname"
+                      name="lastname"
                       value={userInfo.lastname}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group controlId="formGender">
                     <Form.Label>Gender</Form.Label>
                     <Form.Control
                       as="select"
+                      name="gender"
                       value={userInfo.gender}
-                      readOnly
+                      readOnly={!isEditing}
+                      onChange={handleChange}
                     >
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                     </Form.Control>
                   </Form.Group>
                 </Form>
+                {isEditing ? (
+                  <Button variant="primary" onClick={handleSave}>
+                    Save
+                  </Button>
+                ) : (
+                  <Button variant="primary" onClick={handleEdit}>
+                    {userInfo.username ? "Edit" : "Save"}
+                  </Button>
+                )}
               </Card.Body>
             </Card>
           </div>
         </div>
       </div>
-      <Footer /> {/* Including Footer component */}
     </div>
   );
 };

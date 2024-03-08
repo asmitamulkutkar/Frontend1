@@ -117,7 +117,6 @@ const ViewProfile = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Header />
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
           <div className="col-md-8 offset-md-2"></div>
