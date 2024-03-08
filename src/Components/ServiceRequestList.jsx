@@ -6,6 +6,7 @@ import { Button, Table } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header"; // Import the Header component
 import Footer from "./Footer"; // Import the Footer component
+import { Link } from "react-router-dom";
 
 const ServiceRequestList = () => {
   const [serviceRequests, setServiceRequests] = useState([]);
@@ -13,7 +14,7 @@ const ServiceRequestList = () => {
   useEffect(() => {
     const fetchServiceRequests = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/service-req",{withCredentials:true});
+        const response = await axios.get("http://localhost:8000/service-req", { withCredentials: true });
         setServiceRequests(response.data, { withCredentials: true });
       } catch (error) {
         console.error("Error fetching service requests:", error);
@@ -25,9 +26,11 @@ const ServiceRequestList = () => {
 
   const handleAccept = async (req) => {
     try {
-      await axios.put(`http://localhost:8000/service-req/${req._id}`, { req_status: "Approved", user_id: req._id,sp_user_id: req.sp_user_id,
-      description: req.description,service_request: req.service_request},
-      {withCredentials:true});
+      await axios.put(`http://localhost:8000/service-req/${req._id}`, {
+        req_status: "Approved", user_id: req.user_id, sp_user_id: req.sp_user_id,
+        description: req.description, service_request: req.service_request
+      },
+        { withCredentials: true });
       // Update the state to reflect the changes
       setServiceRequests(
         serviceRequests.map((request) =>
@@ -41,8 +44,10 @@ const ServiceRequestList = () => {
 
   const handleDecline = async (req) => {
     try {
-      await axios.put(`http://localhost:8000/service-req/${req._id}`, { req_status: "Rejected", user_id: req._id,sp_user_id: req.sp_user_id,
-      description: req.description,service_request: req.service_request},{withCredentials:true});
+      await axios.put(`http://localhost:8000/service-req/${req._id}`, {
+        req_status: "Rejected", user_id: req.user_id, sp_user_id: req.sp_user_id,
+        description: req.description, service_request: req.service_request
+      }, { withCredentials: true });
       // Update the state to reflect the changes
       setServiceRequests(
         serviceRequests.map((request) =>
@@ -62,6 +67,7 @@ const ServiceRequestList = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
+              <th>User</th>
               <th>Description</th>
               <th>Status</th>
               <th>Action</th>
@@ -70,6 +76,11 @@ const ServiceRequestList = () => {
           <tbody>
             {serviceRequests.map((request) => (
               <tr key={request._id}>
+                <td>
+                  <Link to={`/userprofile/${request.user_id}`}>
+                         {request.user_id}
+                   </Link>
+                </td>
                 <td>{request.description}</td>
                 <td>{request.req_status}</td>
                 <td>
@@ -83,7 +94,7 @@ const ServiceRequestList = () => {
                       </Button>{" "}
                       <Button
                         variant="danger"
-                        onClick={() => handleDecline(request  )}
+                        onClick={() => handleDecline(request)}
                       >
                         Decline
                       </Button>

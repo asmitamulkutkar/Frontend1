@@ -5,7 +5,7 @@ import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ViewProfile = () => {
   const { id } = useParams(); 
@@ -30,7 +30,11 @@ const ViewProfile = () => {
     }
   )
 
+  const navigate = useNavigate();
 
+  const handleSendRequest= (sp_user_id) => {
+    navigate(`/csrequest/${id}`)
+  }
   useEffect(() => {
     const fetchServiceProviderData = async () => {
       try {
@@ -273,7 +277,7 @@ const ViewProfile = () => {
                   />
                 </Form.Group>
                  <div className="flex m-4">
-                 <Button className="m-2" variant="primary" onClick={handleSave}>
+                 <Button className="m-2"  variant="primary" onClick={()=>handleSendRequest()}>
                     Send Request
                   </Button>
                   <Button className="m-2" variant="primary" onClick={handleSave}>

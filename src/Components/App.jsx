@@ -18,6 +18,7 @@ import CHome from "./Client/CHome";
 import CSearch from "./Client/CSearch";
 import CreateServiceRequest from "./Client/CreateServiceRequest";
 import ViewProfile from "./ViewProfile";
+import ViewUserProfile from "./ViewUser";
 
 function App() {
   return (
@@ -36,11 +37,12 @@ function App() {
           element={<ServiceProviderProfile />}
         />
         <Route path="/profile/:id" element={<ViewProfile />} />
+        <Route path="/userprofile/:id" element={<ViewUserProfile />} />
         <Route path="/cheader" element={<CHeader />} />
         <Route path="/cfooter" element={<CFooter />} />
         <Route path="/chome" element={<CHome />} />
         <Route path="/csearch" element={<CSearch />} />
-        <Route path="/csrequest" element={<CreateServiceRequest />} />
+        <Route path="/csrequest/:id" element={<CreateServiceRequest />} />
         <Route path="/spProfile" element={<ServiceProviderProfile/>}/>
          </Routes>
     </BrowserRouter>
