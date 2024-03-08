@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import CHeader from "./CHeader";
+
 import CFooter from "./CFooter";
 
 function CreateFeedback() {
@@ -69,7 +69,6 @@ function CreateFeedback() {
 
   return (
     <>
-      <CHeader />
       <Container className="mt-4">
         <Row className="justify-content-center">
           <Col md={8}>

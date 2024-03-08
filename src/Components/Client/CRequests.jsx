@@ -27,7 +27,6 @@ const CRequests = () => {
 
   return (
     <>
-      <CHeader />
       <Container>
         <h2 className="my-4">My Requests</h2>
         <Row>

@@ -82,7 +82,6 @@ function CreateServiceRequest() {
 
   return (
     <>
-      <CHeader />
       <Container className="mt-4">
         <Row className="justify-content-center">
           <Col md={8}>
@@ -140,7 +139,6 @@ function CreateServiceRequest() {
           </Col>
         </Row>
       </Container>
-      <CFooter />
     </>
   );
 }
