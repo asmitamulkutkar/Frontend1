@@ -39,6 +39,10 @@ const ViewProfile = () => {
     navigate(`/feedback/${id}`);
   };
 
+  const handleSuccessStories = () => {
+    navigate(`/user-stories`);
+  };
+
   useEffect(() => {
     const fetchServiceProviderData = async () => {
       try {
@@ -290,6 +294,13 @@ const ViewProfile = () => {
                     onClick={() => handleFeedback()}
                   >
                     Feedback
+                  </Button>
+                  <Button
+                    className="m-2"
+                    variant="primary"
+                    onClick={() => handleSuccessStories()}
+                  >
+                    Success Stories
                   </Button>
                 </div>
               </Form>

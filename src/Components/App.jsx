@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,7 +10,7 @@ import Register from "./Register";
 import FeedbackForm from "./Feedbacks";
 import ServiceRequestList from "./ServiceRequestList";
 import ServiceProviderList from "./ServiceProviderList";
-import UserStoryList from "./UserStoryList";
+
 import ServiceProviderProfile from "./ServiceProviderProfile";
 import CHeader from "./Client/CHeader";
 import CFooter from "./Client/CFooter";
@@ -21,6 +22,8 @@ import ViewProfile from "./ViewProfile";
 import ViewUserProfile from "./ViewUser";
 
 import CreateFeedback from "./Client/CreateFeedback";
+import CreateSuccessStory from "./CreateSuccessStory";
+import UserStoryList from "./Client/UserStoryList";
 
 function App() {
   return (
@@ -33,7 +36,7 @@ function App() {
         <Route path="/feedbacks" element={<FeedbackForm />} />
         <Route path="/serviceRequest" element={<ServiceRequestList />} />
         <Route path="/serviceProviderList" element={<ServiceProviderList />} />
-        <Route path="/userStories" element={<UserStoryList />} />
+
         <Route
           path="/service-providers/:id"
           element={<ServiceProviderProfile />}
@@ -46,8 +49,11 @@ function App() {
         <Route path="/csearch" element={<CSearch />} />
         <Route path="/csrequest/:id" element={<CreateServiceRequest />} />
         <Route path="/feedback/:id" element={<CreateFeedback />} />
+        <Route path="/userstories/:id" />
         <Route path="/crequests" element={<CRequests />} />
         <Route path="/spProfile" element={<ServiceProviderProfile />} />
+        <Route path="/successStories" element={<CreateSuccessStory />} />
+        <Route path="/user-stories" element={<UserStoryList />} />
       </Routes>
     </BrowserRouter>
   );

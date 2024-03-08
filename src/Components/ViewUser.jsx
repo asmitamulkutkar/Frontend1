@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header";
+import CHeader from "./Client/CHeader";
 import { useParams } from "react-router-dom";
 
 const ViewUserProfile = () => {
@@ -57,7 +58,7 @@ const ViewUserProfile = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <Header />
+      <CHeader />
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
           <div className="col-md-8 offset-md-2 mt-3">
@@ -139,7 +140,11 @@ const ViewUserProfile = () => {
                     Save
                   </Button>
                 ) : (
-                  <Button variant="primary" onClick={handleEdit}>
+                  <Button
+                    variant="primary"
+                    onClick={handleEdit}
+                    className="mt-3"
+                  >
                     {userInfo.username ? "Edit" : "Save"}
                   </Button>
                 )}
