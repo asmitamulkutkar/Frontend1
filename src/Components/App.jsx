@@ -1,11 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Signup from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
-import Header from "./Header";
-import Footer from "./Footer";
 import Register from "./Register";
 import FeedbackForm from "./Feedbacks";
 import ServiceRequestList from "./ServiceRequestList";
@@ -16,9 +15,12 @@ import CHeader from "./Client/CHeader";
 import CFooter from "./Client/CFooter";
 import CHome from "./Client/CHome";
 import CSearch from "./Client/CSearch";
+import CRequests from "./Client/CRequests";
 import CreateServiceRequest from "./Client/CreateServiceRequest";
 import ViewProfile from "./ViewProfile";
 import ViewUserProfile from "./ViewUser";
+
+import CreateFeedback from "./Client/CreateFeedback";
 
 function App() {
   return (
@@ -43,8 +45,10 @@ function App() {
         <Route path="/chome" element={<CHome />} />
         <Route path="/csearch" element={<CSearch />} />
         <Route path="/csrequest/:id" element={<CreateServiceRequest />} />
-        <Route path="/spProfile" element={<ServiceProviderProfile/>}/>
-         </Routes>
+        <Route path="/feedback/:id" element={<CreateFeedback />} />
+        <Route path="/crequests" element={<CRequests />} />
+        <Route path="/spProfile" element={<ServiceProviderProfile />} />
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -37,7 +37,7 @@ function CHeader() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/csrequest">
+                <Link className="nav-link" to="/crequests">
                   Requests
                 </Link>
               </li>

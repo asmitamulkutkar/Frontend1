@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import Header from "./Header";
-import Footer from "./Footer";
+
 import { useNavigate, useParams } from "react-router-dom";
 
 const ViewProfile = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     council_bar_id: "",
@@ -18,23 +19,26 @@ const ViewProfile = () => {
     service_name: "",
     experience_years: 0,
   });
-  const [userInfo,setInfo] =useState(
-    {
-      username: "",
-      email: "",
-      password: "",
-      location: "",
-      firstname: "",
-      lastname: "",
-      gender: "",
-    }
-  )
+  const [userInfo, setInfo] = useState({
+    username: "",
+    email: "",
+    password: "",
+    location: "",
+    firstname: "",
+    lastname: "",
+    gender: "",
+  });
 
   const navigate = useNavigate();
 
-  const handleSendRequest= (sp_user_id) => {
-    navigate(`/csrequest/${id}`)
-  }
+  const handleSendRequest = (sp_user_id) => {
+    navigate(`/csrequest/${id}`);
+  };
+
+  const handleFeedback = () => {
+    navigate(`/feedback/${id}`);
+  };
+
   useEffect(() => {
     const fetchServiceProviderData = async () => {
       try {
@@ -66,13 +70,12 @@ const ViewProfile = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/users/${id}`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`http://localhost:8000/users/${id}`, {
+          withCredentials: true,
+        });
         const userData = response.data;
         console.log(userData);
-    
+
         if (userData) {
           setInfo({
             username: userData.username || "",
@@ -90,31 +93,23 @@ const ViewProfile = () => {
         console.error("Error fetching user data:", error);
       }
     };
-    
+
     fetchServiceProviderData();
     fetchUserData();
   }, []);
 
-
-
-  
-
   const handleSave = async () => {
     try {
-      await axios.put(
-        `http://localhost:8000/service-providers/1`,
-        formData,
-        { withCredentials: true }
-      );
+      await axios.put(`http://localhost:8000/service-providers/1`, formData, {
+        withCredentials: true,
+      });
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
     try {
-      await axios.put(
-        `http://localhost:8000/users/update-user`,
-        userInfo,
-        { withCredentials: true }
-      );
+      await axios.put(`http://localhost:8000/users/update-user`, userInfo, {
+        withCredentials: true,
+      });
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
@@ -213,7 +208,10 @@ const ViewProfile = () => {
                     value={formData.council_bar_id}
                     readOnly
                     onChange={(e) =>
-                      setFormData({ ...formData, council_bar_id: e.target.value })
+                      setFormData({
+                        ...formData,
+                        council_bar_id: e.target.value,
+                      })
                     }
                   />
                 </Form.Group>
@@ -272,25 +270,34 @@ const ViewProfile = () => {
                     value={formData.experience_years}
                     readOnly
                     onChange={(e) =>
-                      setFormData({ ...formData, experience_years: e.target.value })
+                      setFormData({
+                        ...formData,
+                        experience_years: e.target.value,
+                      })
                     }
                   />
                 </Form.Group>
-                 <div className="flex m-4">
-                 <Button className="m-2"  variant="primary" onClick={()=>handleSendRequest()}>
+                <div className="flex m-4">
+                  <Button
+                    className="m-2"
+                    variant="primary"
+                    onClick={() => handleSendRequest()}
+                  >
                     Send Request
                   </Button>
-                  <Button className="m-2" variant="primary" onClick={handleSave}>
+                  <Button
+                    className="m-2"
+                    variant="primary"
+                    onClick={() => handleFeedback()}
+                  >
                     Feedback
                   </Button>
-                 </div>
-
+                </div>
               </Form>
             </Card.Body>
           </Card>
         </div>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 };
