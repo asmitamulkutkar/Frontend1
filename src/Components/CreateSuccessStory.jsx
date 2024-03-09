@@ -8,6 +8,7 @@ import Footer from "./Footer";
 const CreateSuccessStory = () => {
   const [mediaUrl, setMediaUrl] = useState("");
   const [caption, setCaption] = useState("");
+  const [username, setUsername] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -22,10 +23,13 @@ const CreateSuccessStory = () => {
         { withCredentials: true }
       );
       // Show success message
+
+      
       setShowSuccessMessage(true);
       // Clear input fields
       setMediaUrl("");
       setCaption("");
+      setUsername("");
     } catch (error) {
       console.error("Error creating success story:", error);
     }

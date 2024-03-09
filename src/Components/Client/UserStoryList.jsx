@@ -7,7 +7,7 @@ import Header from "../Header";
 
 function UserStoryList() {
   const [userStories, setUserStories] = useState([]);
-
+  const [usernameMap, setUsernameMap] = useState({}); // Store username for each user ID
   useEffect(() => {
     fetchUserStories();
   }, []);
@@ -19,9 +19,27 @@ function UserStoryList() {
         withCredentials: true,
       });
       setUserStories(response.data);
+      console.log(response.data);
+      fetchUsernames(response.data); // Fetch usernames for each user ID
+
     } catch (error) {
       console.error("Error fetching user stories:", error);
     }
+  };
+
+  const fetchUsernames = async (stories) => {
+    const usernameMapCopy = { ...usernameMap };
+    for (const story of stories) {
+      try {
+        const response = await axios.get(`http://localhost:8000/users/${story.user_id}`, {
+          withCredentials: true,
+        });
+        usernameMapCopy[story.user_id] = response.data.username;
+      } catch (error) {
+        console.error("Error fetching username for user ID:", story.user_id, error);
+      }
+    }
+    setUsernameMap(usernameMapCopy);
   };
 
   return (
@@ -34,6 +52,8 @@ function UserStoryList() {
             {userStories.map((story, index) => (
               <ListGroup.Item key={index}>
                 <strong>User ID:</strong> {story.user_id}
+                <br />
+                <strong>User Name:</strong> {usernameMap[story.user_id] || "Loading..."}
                 <br />
                 <strong>Media URL:</strong> {story.media_url}
                 <br />
