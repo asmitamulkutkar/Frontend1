@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import axios from "axios";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const ServiceProviderProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [id,setId] = useState(0);
   const [formData, setFormData] = useState({
     council_bar_id: "",
     categories: "",
@@ -13,16 +16,20 @@ const ServiceProviderProfile = () => {
     service_type: "",
     service_name: "",
     experience_years: 0,
+    serviceProviderId:0
   });
-  const [userInfo, setInfo] = useState({
-    username: "",
-    email: "",
-    password: "",
-    location: "",
-    firstname: "",
-    lastname: "",
-    gender: "",
-  });
+  const [userInfo,setInfo] =useState(
+    {
+      username: "",
+      email: "",
+      password: "",
+      location: "",
+      firstname: "",
+      lastname: "",
+      gender: "",
+    }
+  )
+
 
   useEffect(() => {
     const fetchServiceProviderData = async () => {
@@ -33,6 +40,8 @@ const ServiceProviderProfile = () => {
         );
         const serviceProviderData = response.data;
         console.log(serviceProviderData);
+        console.log(serviceProviderData[0]._id);
+        setId(serviceProviderData[0]._id)
         setFormData({
           council_bar_id: serviceProviderData[0].council_bar_id || "",
           categories: serviceProviderData[0].categories || "",
@@ -40,13 +49,6 @@ const ServiceProviderProfile = () => {
           service_type: serviceProviderData[0].service_type || "",
           service_name: serviceProviderData[0].service_name || "",
           experience_years: serviceProviderData[0].experience_years || 0,
-          // username: serviceProviderData[0].username || "",
-          // email: serviceProviderData[0].email || "",
-          // password: serviceProviderData[0].password || "",
-          // location: serviceProviderData[0].location || "",
-          // firstname: serviceProviderData[0].firstname || "",
-          // lastname: serviceProviderData[0].lastname || "",
-          // gender: serviceProviderData[0].gender || "",
         });
       } catch (error) {
         console.error("Error fetching service provider data:", error);
@@ -55,10 +57,10 @@ const ServiceProviderProfile = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/users/${formData.council_bar_id}`,
-          { withCredentials: true }
-        );
+        console.log("user id: ",id);
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
+          withCredentials: true,
+        });
         const userData = response.data;
         console.log(userData);
 
@@ -79,10 +81,12 @@ const ServiceProviderProfile = () => {
         console.error("Error fetching user data:", error);
       }
     };
-
+    
     fetchServiceProviderData();
     fetchUserData();
   }, []);
+
+
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -90,17 +94,21 @@ const ServiceProviderProfile = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:8000/service-providers/1`, formData, {
-        withCredentials: true,
-      });
+      await axios.put(
+        `http://localhost:8000/service-providers/1`,
+        formData,
+        { withCredentials: true }
+      );
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
     }
     try {
-      await axios.put(`http://localhost:8000/users/update-user`, userInfo, {
-        withCredentials: true,
-      });
+      await axios.put(
+        `http://localhost:8000/users/update-user`,
+        userInfo,
+        { withCredentials: true }
+      );
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating service provider:", error);
@@ -109,6 +117,7 @@ const ServiceProviderProfile = () => {
 
   return (
     <div className="d-flex flex-column h-100">
+      <Header />
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
           <div className="col-md-8 offset-md-2"></div>
@@ -199,10 +208,7 @@ const ServiceProviderProfile = () => {
                     value={formData.council_bar_id}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        council_bar_id: e.target.value,
-                      })
+                      setFormData({ ...formData, council_bar_id: e.target.value })
                     }
                   />
                 </Form.Group>
@@ -261,10 +267,7 @@ const ServiceProviderProfile = () => {
                     value={formData.experience_years}
                     readOnly={!isEditing}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        experience_years: e.target.value,
-                      })
+                      setFormData({ ...formData, experience_years: e.target.value })
                     }
                   />
                 </Form.Group>

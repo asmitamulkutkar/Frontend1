@@ -52,7 +52,7 @@ function Register() {
       );
       console.log(response.data);
       setLoading(false);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       if (err.response && err.response.status === 409) {
@@ -347,7 +347,7 @@ function Register() {
         </form>
         <p className="mt-3 text-center">
           Already have an account?{" "}
-          <Link to="/login">
+          <Link to="/">
             <strong>Login</strong>
           </Link>
         </p>

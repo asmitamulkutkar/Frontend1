@@ -5,10 +5,13 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import CHeader from "./CHeader";
 import CFooter from "./CFooter";
+import Header from "../Header";
+
 
 function CreateServiceRequest() {
   const { id } = useParams();
   const [username, setUserName] = useState("");
+  const [role,setRole] =  useState("");
   const [formData, setFormData] = useState({
     sp_user_id: id,
     description: "",
@@ -45,8 +48,28 @@ function CreateServiceRequest() {
         console.error("Error fetching user data:", error);
       }
     };
+    
+    const fetchUserRole = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8000/users/profile`, {
+            withCredentials: true,
+          });
+          const userData = response.data;
+  
+          if (userData) {
+            setRole(userData.role);
+            console.log(role);
+          } else {
+            console.error("No user data found in the response.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+        
+      };
     fetchUserData();
-  }, [id]);
+    fetchUserRole();
+  }, [id,role]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,6 +105,8 @@ function CreateServiceRequest() {
 
   return (
     <>
+    {role=="Client"?<CHeader/>:<Header/>}
+  
       <Container className="mt-4">
         <Row className="justify-content-center">
           <Col md={8}>
@@ -107,16 +132,6 @@ function CreateServiceRequest() {
                   as="textarea"
                   name="description"
                   value={formData.description}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-              <Form.Group controlId="service_request">
-                <Form.Label>Service Request</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="service_request"
-                  value={formData.service_request}
                   onChange={handleChange}
                   required
                 />

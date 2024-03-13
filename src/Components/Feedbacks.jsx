@@ -5,14 +5,35 @@ import { Container, ListGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import CHeader from "./Client/CHeader";
 
 function FeedbackList() {
   const [feedbackList, setFeedbackList] = useState([]);
+  const [role,setRole] =  useState("");
 
   useEffect(() => {
     fetchFeedback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const fetchUserRole = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
+          withCredentials: true,
+        });
+        const userData = response.data;
+
+        if (userData) {
+          setRole(userData.role);
+          console.log(role);
+        } else {
+          console.error("No user data found in the response.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      
+    };
+    fetchUserRole()
+  }, [role]);
 
   const fetchFeedback = async () => {
     try {
@@ -30,7 +51,7 @@ function FeedbackList() {
   return (
     <>
       <>
-        <Header />
+      {role=="Client"?<CHeader/>:<Header/>}
         <Container className="mt-5">
           <h1 className="mb-4">All Feedbacks</h1>
           {Array.isArray(feedbackList) && feedbackList.length > 0 ? (

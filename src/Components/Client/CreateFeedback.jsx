@@ -5,12 +5,15 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 import CFooter from "./CFooter";
+import Header from "../Header";
+import CHeader from "./CHeader";
 
 function CreateFeedback() {
   const { id } = useParams();
   const [username, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [role,setRole] = useState("")
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
@@ -33,7 +36,27 @@ function CreateFeedback() {
         console.error("Error fetching service provider data:", error);
       }
     };
+    const fetchUserRole = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
+          withCredentials: true,
+        });
+        const userData = response.data;
+
+        if (userData) {
+          setRole(userData.role);
+          console.log(role);
+        } else {
+          console.error("No user data found in the response.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      
+    };
+    fetchUserRole()
     fetchUserData();
+    
   }, [id]);
 
   const handleSubmit = async (e) => {
@@ -69,6 +92,7 @@ function CreateFeedback() {
 
   return (
     <>
+    {role=="Client"?<CHeader/>:<Header/>}
       <Container className="mt-4">
         <Row className="justify-content-center">
           <Col md={8}>

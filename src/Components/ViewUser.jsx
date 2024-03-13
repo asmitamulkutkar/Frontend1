@@ -24,7 +24,7 @@ const ViewUserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/users/${id}`, {
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
           withCredentials: true,
         });
         const userData = response.data;
@@ -135,19 +135,6 @@ const ViewUserProfile = () => {
                     </Form.Control>
                   </Form.Group>
                 </Form>
-                {isEditing ? (
-                  <Button variant="primary" onClick={handleSave}>
-                    Save
-                  </Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    onClick={handleEdit}
-                    className="mt-3"
-                  >
-                    {userInfo.username ? "Edit" : "Save"}
-                  </Button>
-                )}
               </Card.Body>
             </Card>
           </div>

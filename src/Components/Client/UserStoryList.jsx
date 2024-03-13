@@ -4,13 +4,34 @@ import axios from "axios";
 import { Container, ListGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Header";
+import CHeader from "./CHeader";
 
 function UserStoryList() {
   const [userStories, setUserStories] = useState([]);
+  const [role,setRole] = useState("")
   const [usernameMap, setUsernameMap] = useState({}); // Store username for each user ID
   useEffect(() => {
     fetchUserStories();
-  }, []);
+    const fetchUserRole = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
+          withCredentials: true,
+        });
+        const userData = response.data;
+
+        if (userData) {
+          setRole(userData.role);
+          console.log(role);
+        } else {
+          console.error("No user data found in the response.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      
+    };
+    fetchUserRole()
+  }, [role]);
 
   const fetchUserStories = async () => {
     try {
@@ -44,7 +65,7 @@ function UserStoryList() {
 
   return (
     <>
-      <Header />
+      {role=="Client"?<CHeader/>:<Header/>}
       <Container className="mt-5">
         <h1 className="mb-4">Success Stories</h1>
         {Array.isArray(userStories) && userStories.length > 0 ? (

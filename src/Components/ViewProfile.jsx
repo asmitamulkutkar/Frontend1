@@ -7,10 +7,12 @@ import axios from "axios";
 import Header from "./Header";
 
 import { useNavigate, useParams } from "react-router-dom";
+import CHeader from "./Client/CHeader";
 
 const ViewProfile = () => {
   const { id } = useParams();
   const [isEditing, setIsEditing] = useState(false);
+  const [role,setRole] =  useState("");
   const [formData, setFormData] = useState({
     council_bar_id: "",
     categories: "",
@@ -67,9 +69,11 @@ const ViewProfile = () => {
           // lastname: serviceProviderData[0].lastname || "",
           // gender: serviceProviderData[0].gender || "",
         });
+        
       } catch (error) {
         console.error("Error fetching service provider data:", error);
       }
+      
     };
 
     const fetchUserData = async () => {
@@ -98,8 +102,27 @@ const ViewProfile = () => {
       }
     };
 
+    const fetchUserRole = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/users/profile`, {
+          withCredentials: true,
+        });
+        const userData = response.data;
+
+        if (userData) {
+          setRole(userData.role);
+          console.log(role);
+        } else {
+          console.error("No user data found in the response.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      
+    };
     fetchServiceProviderData();
     fetchUserData();
+    fetchUserRole();
   }, []);
 
   const handleSave = async () => {
@@ -120,7 +143,9 @@ const ViewProfile = () => {
   };
 
   return (
+    
     <div className="d-flex flex-column h-100">
+      {role=="Client"?<CHeader/>:<Header/>}
       <div className="container container flex-grow-1 overflow-auto">
         <div className="row">
           <div className="col-md-8 offset-md-2"></div>
